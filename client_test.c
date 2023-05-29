@@ -5,6 +5,7 @@
 #include <CUnit/Basic.h>
 #include "client.h"
 
+// test function
 void test_receive_message() {
     // Dummy socket file descriptor
     int sockfd = 0;
