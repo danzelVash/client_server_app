@@ -4,8 +4,6 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-#define SERVER_HOST "127.0.0.1"
-#define SERVER_PORT 8080
 
 int main() {
     int sockfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -29,7 +27,9 @@ int main() {
 
     printf("Connected to the server.\n");
 
+    // создаем поток
     pid_t pid = fork();
+
     if (pid == -1) {
         perror("Fork failed");
         exit(EXIT_FAILURE);

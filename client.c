@@ -1,10 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <sys/socket.h>
+#include "client.h"
 
-#define SERVER_HOST "127.0.0.1"
-#define SERVER_PORT 8080
-#define BUFFER_SIZE 1024
 
 void receive_message(int sockfd) {
     char buffer[BUFFER_SIZE];

@@ -40,6 +40,7 @@ void *client_handler(void *arg) {
     while ((read_size = read(clients[client_index].sockfd, buffer, BUFFER_SIZE)) > 0) {
         buffer[read_size] = '\0';
         broadcast_message(buffer, clients[client_index].priority);
+        // заполняем
         memset(buffer, 0, BUFFER_SIZE);
     }
 
@@ -51,11 +52,9 @@ void *client_handler(void *arg) {
         priority_mode = 0;
     }
 
-    pthread_mutex_unlock(&mutex);
+
     pthread_cond_broadcast(&cond);
     close(clients[client_index].sockfd);
-
-    pthread_mutex_lock(&mutex);
     clients[client_index] = clients[client_index + 1];
     clients[client_index].priority = client_index;
     pthread_mutex_unlock(&mutex);

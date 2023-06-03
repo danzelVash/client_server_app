@@ -11,7 +11,11 @@ int main() {
     init(&priority_queue, MAX_NUM_OF_ACTIVE_CLIENTS);
 
     // Create socket
+    // SOCK_STREAM
+    // Поддерживает надежное взаимодействие с байтовым потоком, ориентированным на подключение.
+    // AF_INET — это семейство адресов для IPv4.
     server_fd = socket(AF_INET, SOCK_STREAM, 0);
+    // дескриптор сокета
     if (server_fd == -1) {
         perror("Socket creation failed");
         exit(EXIT_FAILURE);
@@ -20,6 +24,7 @@ int main() {
     server_addr.sin_family = AF_INET;
     server_addr.sin_addr.s_addr = INADDR_ANY;
     server_addr.sin_port = htons(8080);
+
     pthread_create(&priority_thread_id, NULL, priority_handler, NULL);
 
     // Bind
@@ -38,7 +43,10 @@ int main() {
 
     while (1) {
         socklen_t client_len = sizeof(client_addr);
+
+        // достаем запрос из очереди подключенных, даем дескриптор, создаем сокет
         client_fd = accept(server_fd, (struct sockaddr *) &client_addr, &client_len);
+
 
         pthread_mutex_lock(&mutex);
 
@@ -54,6 +62,7 @@ int main() {
             priority_mode = 0;
         }
 
+        // отправляем обрабатываться отдельнвм потоком
         pthread_create(&thread_id, NULL, client_handler, &client_index);
 
         pthread_mutex_unlock(&mutex);

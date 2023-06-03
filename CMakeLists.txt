@@ -3,4 +3,4 @@ project(client_server_app C)
 
 set(CMAKE_C_STANDARD 11)
 
-add_executable(client_server_app main.c)
+add_executable(client_server_app main.c server_entry.c server_entry.c)
